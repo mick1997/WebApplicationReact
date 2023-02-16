@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { redirect, useNavigate } from "react-router-dom";
 
 export const Logout = (props) => {
@@ -27,12 +28,10 @@ export const Logout = (props) => {
     
 
     return (
-        <div>
-           
-            {/* <span> You're currently {currentStatus} </span> */}
-            <button className="log-in" onClick={handleClick}>
+        <div className="buttonHelper">
+            <Button variant="secondary" style={{float: "right"}} onClick={handleClick}>
                 {buttonStatus}
-            </button>
+            </Button>
         </div>
     );
 }

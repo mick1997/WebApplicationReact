@@ -41,3 +41,12 @@ code {
     float: right;
     transition: min-width 0.2s;
 }
+
+.buttonHelper {
+  width: 60%;
+  display: inline;
+  overflow: auto;
+  white-space: nowrap;
+  margin: 0px auto;
+}
+
