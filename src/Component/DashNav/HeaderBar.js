@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
-import Logout from "../Logout";
+import { Logout } from "../Logout";
 import "./myStyles.css";
 
 class HeaderBar extends React.Component {

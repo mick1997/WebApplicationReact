@@ -4,7 +4,7 @@ import AuthServices from "../Services/AuthServices.js";
 import { Button } from "react-bootstrap";
 import "../style/bootcampstyles.css";
 import guestUser from "../img/user-login-icon.svg";
-import Logout from "./Logout.js";
+import { Logout } from "./Logout.js";
 
 export const NavBar = (props) => {
 
