@@ -11,16 +11,15 @@ export const Registor = (props) => {
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
-  
   const [mobilenumber, setMobilenumber] = useState("");
   const [loginResponse, setLoginResponse] = useState({
     state: false,
     msg: "",
   });
 
-  useEffect( ()=>{
-    if(loginResponse.status=="success"){
-        alert("loginResponse",loginResponse.status)
+  useEffect( ()=> {
+    if(loginResponse.status === "success") {
+        alert("loginResponse", loginResponse.status)
         props.handleClose()
         //return redirect("/login");
     }
@@ -59,8 +58,6 @@ export const Registor = (props) => {
       });
   }
   
-
-
   async function Login(event) {
     event.preventDefault();
     try {
@@ -80,63 +77,11 @@ export const Registor = (props) => {
         response: errorMsg,
       });
     }
-
-    //   let userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
-    //   console.log(
-    //     "THE USER",
-    //     userFromLocalStorage,
-    //     JSON.stringify(userFromLocalStorage)
-    //   );
-    //   userFromLocalStorage?.token?.error
-    //     ? setErrState({
-    //         state: true,
-    //         msg: userFromLocalStorage.token.errors[0].details,
-    //       })
-    //     : setErrState({
-    //         state: false,
-    //         msg: "",
-    //       });
-    //   setSuccState({
-    //     state: true,
-    //     msg: "Yeah ! Logged in successfully",
-    //   });
-    // } catch (errorMsg) {
-    //   setErrState({
-    //     state: true,
-    //     msg: errorMsg,
-    //   });
-    // }
-
-    // var data = JSON.stringify({
-    //   email: email,
-    //   password: password,
-    // });
-
-    // var config = {
-    //   method: "post",
-    //   url: baseurl + "/apiauth/authenticate",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   data: data,
-    // };
-
-    // axios(config)
-    //   .then(function (response) {
-    //     console.log(JSON.stringify(response.data));
-    //     // console.log("user");
-    //     localStorage.setItem("user", response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
   }
 
   if (authMode === "signin") {
     return (
       <div>
-
-
         {loginResponse?.status === "error" ? (
           <>
             <Alert id="error" variant="danger" dismissible>
@@ -148,11 +93,8 @@ export const Registor = (props) => {
         : 
         loginResponse?.status === "success" ?
           <>
-        
-          
             <Alert id="success" variant="success" dismissible>
               <Alert.Heading>Great! Good Job</Alert.Heading>
-              
                 {loginResponse.status && (
                   <Navigate to="/dashboard" replace={true} />
                 )}
