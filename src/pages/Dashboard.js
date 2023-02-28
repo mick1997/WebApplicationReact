@@ -23,13 +23,13 @@ const Dashboard = (props) => {
     { text: "Bootcamps", href: "/bootcamps" },
   ];
 
-  if (!menuItems)
+  if (!menuItems) 
     return (
       <div>
-        {" "}
-        <LoadingSpinner></LoadingSpinner>{" "}
+        <LoadingSpinner></LoadingSpinner>
       </div>
     );
+    
   return (
     <>
       <div>
@@ -38,13 +38,11 @@ const Dashboard = (props) => {
         </HeaderBar>
         <SideNavBar></SideNavBar>
       </div>
-      <div>
-        
-      </div>
+      <div></div>
       <div>
         <Footer></Footer>
       </div>
-      <Modal
+      {/* <Modal
         show={show}
         onHide={handleClose}
         backdrop="static"
@@ -54,7 +52,7 @@ const Dashboard = (props) => {
         <Modal.Body>
           <Registor handleClose={handleClose}></Registor>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

@@ -35,6 +35,7 @@ function Profile() {
   const [edit, setEdit] = useState(false);
   // instead of reading it from props, we are making api call from there we will render the state
   const [profile, setProfile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     let token = "";
@@ -87,7 +88,7 @@ function Profile() {
     }
 
     const options = {
-      method: "POST",
+      method: "PUT",
       url: baseurl + "/apiauth/updateprofile",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -100,7 +101,6 @@ function Profile() {
       .request(options)
       .then(function (response) {
         console.log("testing the response", response.data);
-        setProfile(response.data);
       })
       .catch(function (error) {
         console.error("Testing error", error);
@@ -116,6 +116,24 @@ function Profile() {
     setProfile({
       ...profile,
       [name]: value,
+    });
+  };
+
+  const handleUserProfileInput = (e) => {
+    setProfile({
+      ...profile,
+      userProfile: {
+        ...profile.userProfile,
+        linkedIn: e.target.value
+      }
+    });
+  };
+
+
+  const handleImageInput = (e) => {
+    setProfile({
+      ...profile,
+      profilePicture: e.target.file,
     });
   };
 
@@ -159,35 +177,37 @@ function Profile() {
                     <MDBCardBody className="text-center">
                       <div className="justify-content-center mb-2">
                         <div>
-                          <MDBCardImage
-                            src={profile.profilePicture}
-                            alt="avatar"
-                            className="rounded-circle"
-                            style={{ width: "150px" }}
-                            fluid
+                          <label class="form-label" for="customFile">
+                            Choose your profile picture to upload
+                          </label>
+                          {selectedImage && (
+                            <div>
+                              <img
+                                alt="not found"
+                                width={"100px"}
+                                src={URL.createObjectURL(selectedImage)}
+                              />
+                            </div>
+                          )}
+                          <br />
+                          <input
+                            type="file"
+                            name="myImage"
+                            className="form-control"
+                            id="customFile"
+                            aria-label="profilePicture"
+                            aria-describedby="basic-addon1"
+                            onChange={(event) => {
+                              console.log(event.target.files[0]);
+                              setSelectedImage(event.target.files[0]);
+                              // handleInput("profilePicture", event.target.files[0]);
+                            }}
                           />
                         </div>
-                        <label class="form-label" for="customFile">
-                          Choose your profile picture to upload
-                        </label>
-                        <input
-                          type="file"
-                          className="form-control"
-                          // onChange={(e) => setProfilePic(e.target.value)}
-                          id="customFile"
-                          value={profile.profilePicture}
-                          aria-label="profilePicture"
-                          aria-describedby="basic-addon1"
-                          onChange={(event) =>
-                            handleInput("profilePicture", event.target.value)
-                          }
-                        />
                       </div>
+                      <br />
                       <div className="d-flex justify-content-center mb-2">
-                        <MDBBtn>Follow</MDBBtn>
-                        <MDBBtn outline className="ms-1">
-                          Message
-                        </MDBBtn>
+                        <MDBBtn onClick={handleImageInput}>Upload</MDBBtn>
                       </div>
                     </MDBCardBody>
                   </MDBCard>
@@ -200,6 +220,8 @@ function Profile() {
                             fab
                             icon="linkedin fa-lg "
                             style={{ color: "#00008B" }}
+                            value={profile.userProfile[0].linkedIn}
+                            onChange={handleUserProfileInput}
                           />
                           <MDBCardText>
                             <input
@@ -361,7 +383,7 @@ function Profile() {
                               aria-label="mobilenumber"
                               aria-describedby="basic-addon1"
                               onChange={(event) =>
-                                handleInput("mobilenumber", event.target.value)
+                                handleInput("mobileNumber", event.target.value)
                               }
                             ></input>
                           </MDBCardText>
@@ -381,7 +403,7 @@ function Profile() {
                               aria-label="address"
                               aria-describedby="basic-addon1"
                               onChange={(event) =>
-                                handleInput("ad", event.target.value)
+                                handleInput("address", event.target.value)
                               }
                             ></input>
                           </MDBCardText>
@@ -455,7 +477,7 @@ function Profile() {
                               />
                               <MDBCardText>
                                 {profile?.userProfile.length > 0 ? (
-                                  <>{profile.userProfile[0].linkedin}</>
+                                  <>{profile.userProfile[0].linkedIn}</>
                                 ) : (
                                   <>No LinkedIn website</>
                                 )}
@@ -648,75 +670,30 @@ function Profile() {
                                     <table className="table">
                                       <thead>
                                         <tr>
-                                          <th scope="col">Name</th>
-                                          <th scope="col">University</th>
-                                          <th scope="col">City</th>
-                                          <th scope="col">State</th>
-                                          <th scope="col">Country</th>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.keys(
+                                              profile.userProfile[0]
+                                                .education[0]
+                                            ).map((key, index) => {
+                                              return <th>{key}</th>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </thead>
                                       <tbody>
                                         <tr>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .education[0].name
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Name Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .education[0].university
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No University Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .education[0].city
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No City Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .education[0].state
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No State Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .education[0].country
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Country Show</>
-                                            )}
-                                          </td>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.values(
+                                              profile.userProfile[0]
+                                                .education[0]
+                                            ).map((values, index) => {
+                                              return <td>{values}</td>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </tbody>
                                     </table>
@@ -730,49 +707,30 @@ function Profile() {
                                     <table class="table">
                                       <thead>
                                         <tr>
-                                          <th scope="col">Name</th>
-                                          <th scope="col">Years</th>
-                                          <th scope="col">Description</th>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.keys(
+                                              profile.userProfile[0]
+                                                .experience[0]
+                                            ).map((key, index) => {
+                                              return <th>{key}</th>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </thead>
                                       <tbody>
                                         <tr>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .experience[0].name
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Name Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .experience[0].years
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Years Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .experience[0].description
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Description Show</>
-                                            )}
-                                          </td>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.values(
+                                              profile.userProfile[0]
+                                                .experience[0]
+                                            ).map((values, index) => {
+                                              return <td>{values}</td>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </tbody>
                                     </table>
@@ -784,51 +742,28 @@ function Profile() {
                                     <table class="table">
                                       <thead>
                                         <tr>
-                                          <th scope="col">Skill Name</th>
-                                          <th scope="col">Proficiency</th>
-                                          <th scope="col">
-                                            Certification Link
-                                          </th>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.keys(
+                                              profile.userProfile[0].skills[0]
+                                            ).map((key, index) => {
+                                              return <th>{key}</th>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </thead>
                                       <tbody>
                                         <tr>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .skills[0].skillName
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Skill Name Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .skills[0].proficieny
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Proficiency Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .skills[0].certificationLink
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Certification Link Show</>
-                                            )}
-                                          </td>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.values(
+                                              profile.userProfile[0].skills[0]
+                                            ).map((values, index) => {
+                                              return <td>{values}</td>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </tbody>
                                     </table>
@@ -840,89 +775,28 @@ function Profile() {
                                     <table class="table">
                                       <thead>
                                         <tr>
-                                          <th scope="col">Name</th>
-                                          <th scope="col">TechStack</th>
-                                          <th scope="col">Roles</th>
-                                          <th scope="col">Responsibilities</th>
-                                          <th scope="col">Team Size</th>
-                                          <th scope="col">Details</th>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.keys(
+                                              profile.userProfile[0].projects[0]
+                                            ).map((key, index) => {
+                                              return <th>{key}</th>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </thead>
                                       <tbody>
                                         <tr>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .projects[0].name
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Name Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .projects[0].techStack
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Tech Stack Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .projects[0].roles
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Rols Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .projects[0]
-                                                    .responsibilities
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Responsibilities Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .projects[0].teamSize
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Team Size Show</>
-                                            )}
-                                          </td>
-                                          <td>
-                                            {profile?.userProfile.length > 0 ? (
-                                              <>
-                                                {
-                                                  profile.userProfile[0]
-                                                    .projects[0].details
-                                                }
-                                              </>
-                                            ) : (
-                                              <>No Details Show</>
-                                            )}
-                                          </td>
+                                          {profile.userProfile.length > 0 ? (
+                                            Object.values(
+                                              profile.userProfile[0].projects[0]
+                                            ).map((values, index) => {
+                                              return <td>{values}</td>;
+                                            })
+                                          ) : (
+                                            <>No Data Avaliable</>
+                                          )}
                                         </tr>
                                       </tbody>
                                     </table>
