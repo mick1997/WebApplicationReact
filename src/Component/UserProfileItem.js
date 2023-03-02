@@ -35,7 +35,7 @@ function UserProfileItemsTable(props) {
 
     const options = {
       method: "PUT",
-      url: baseurl + "/apiauth/updateprofile",
+      url: baseurl + "/user/updateprofile",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -64,12 +64,14 @@ function UserProfileItemsTable(props) {
   //   });
   // };
 
-  /*const handle*/
+const handleInput=(e)=>{
+
+}
 
   const handleInputEducation = (e) => {
     setUserProfile({
       ...userProfile,
-      education: [{ [name]: value }]
+      education: [{ [e.traget.name]: e.target.value }]
     });
   };
 

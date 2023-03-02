@@ -10,6 +10,8 @@ import { NavBar } from "../Component/Nav";
 import { HeadSection } from "../Component/HeadSection";
 import { Footer } from "../Component/Footer";
 import { Link, useParams } from "react-router-dom";
+import { baseurl } from "../include/Urlinclude";
+import axios from "axios";
 
 // Routing  
 const Bootcamp = (props) => {
@@ -29,7 +31,7 @@ const Bootcamp = (props) => {
     );
 }
 
-const baseUrl = "http://localhost:8077/api";
+
 const Bootcamps = (props) => {
 
     const [show, setShow] = useState(false);
@@ -48,18 +50,48 @@ const Bootcamps = (props) => {
 
     useEffect(() => {
         async function GetBootcamps() {
-            try {
-                const response = await fetch(baseUrl + "/bootcamps")
-                let json = response.json()
-                json.then(data => {
-                    setBootcamps(data.BootcampList)
-                    console.log("All Data ", bootcamps)
-                })
-            } 
-            catch (error) {
-                console.log("Reading Bootcamp 1", BootcampList)
+
+
+            const options = {
+                method: 'GET',
+                url: 'http://localhost:8077/api/v1/bootcamp/allbootcamps',
+                headers: {                  
+                  Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaGVlcmFqLnNpbmdoQHNudmEuY29tIiwicm9sZXMiOlsiUEFSVElDSVBBTlQiXSwiZXhwIjoxNjc4NTcyNTkwfQ.M5Q6_YytItSEDM8SBZJlCl1RWdm05o7LWrE1YL9-BH1WIynDdS26W-fQENTvqrB3ZEmbRcpazypxZ7vzB7Etrg'
+                },
+                data: {}
+              };
+              
+              axios.request(options).then(function (response) {
+                console.log(response.data);
+                setBootcamps(response.data)
+                console.log("All Data ", bootcamps)
+              }).catch(function (error) {
+                console.error(error);
                 setBootcamps(BootcampList.BootcampList)
-            }
+              });
+
+
+
+            // try {
+            //     const response = await fetch(baseurl + "/bootcamp/allbootcamps")
+            //    response.then(response=>response.json())
+            //    .then(json=>{
+            //         setBootcamps(json.BootcampList)
+            //         console.log("All Data ", bootcamps)
+            //    })
+            //    .error(error=>{console.log(error)})
+               
+               
+                
+            //     // json.then(data => {
+            //     //     setBootcamps(data.BootcampList)
+            //     //     console.log("All Data ", bootcamps)
+            //     // })
+            // } 
+            // catch (error) {
+            //     console.log("Reading Bootcamp 1", BootcampList)
+            //     setBootcamps(BootcampList.BootcampList)
+            // }
         }
         GetBootcamps() // IIF
     }, [])

@@ -40,10 +40,11 @@ function Profile() {
   useEffect(() => {
     let token = "";
     let localUser = AuthServices.getCurrentUser(); //localStorage.getItem("user")
-    // console.log("localUser: ", localUser);
+     console.log("localUser: ", localUser);
     try {
       // get token
       token = JSON.parse(localUser).response;
+      console.log("Token", token)
     } catch (error) {
       console.error("Axios Error", error);
       return error;
@@ -51,12 +52,13 @@ function Profile() {
 
     const options = {
       method: "POST",
-      url: baseurl + "/apiauth/apiprofile",
+      url: baseurl + "/user/apiprofile",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      data: {},
+      data: {}
+   
     };
 
     axios
