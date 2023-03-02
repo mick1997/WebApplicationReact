@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import { baseurl } from "../include/Urlinclude";
-const API_AUTH_URL = baseurl+ "/apiauth/authenticate";       
+const API_AUTH_URL = baseurl+ "/user/authenticate";       
                                         
 
 class AuthService
