@@ -64,7 +64,7 @@ function UserProfileItemsTable(props) {
   //   });
   // };
 
-  const handle
+  /*const handle*/
 
   const handleInputEducation = (e) => {
     setUserProfile({
