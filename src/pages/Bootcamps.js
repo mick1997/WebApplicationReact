@@ -12,18 +12,21 @@ import { Footer } from "../Component/Footer";
 import { Link, useParams } from "react-router-dom";
 import { baseurl } from "../include/Urlinclude";
 import axios from "axios";
+import AuthServices from "../Services/AuthServices";
 
 // Routing  
 const Bootcamp = (props) => {
     const [bootcamp, setBootcamp] = useState(props)
-    console.log("bootcamp:"+bootcamp)
+    console.log("bootcamp:"+JSON.stringify(bootcamp))
     return (
         <Card style={{ width: bootcamp.width }} className="m-5">
             <Card.Img variant="top" src={bootcamp.imageSrc} />
             <Card.Body>
-                <Card.Title>{bootcamp.title}</Card.Title>
+                <Card.Title>{bootcamp.name}</Card.Title>
                 <Card.Text>
                     {bootcamp.body}
+
+                    <span><i class="bi bi-stopwatch"></i> {bootcamp.startDate}</span>
                 </Card.Text>                
                 <Link className="btn btn-warning position-absolute end-50" to={props.identifier} >Details</Link>
             </Card.Body>
@@ -54,10 +57,10 @@ const Bootcamps = (props) => {
 
             const options = {
                 method: 'GET',
-                url: 'http://localhost:8077/api/v1/bootcamp/allbootcamps',
-                headers: {                  
-                  Authorization: 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaGVlcmFqLnNpbmdoQHNudmEuY29tIiwicm9sZXMiOlsiUEFSVElDSVBBTlQiXSwiZXhwIjoxNjc4NTcyNTkwfQ.M5Q6_YytItSEDM8SBZJlCl1RWdm05o7LWrE1YL9-BH1WIynDdS26W-fQENTvqrB3ZEmbRcpazypxZ7vzB7Etrg'
-                },
+                url: baseurl+'/bootcamp/allbootcamps',
+                // headers: {                  
+                //   Authorization: `Bearer ${JSON.parse(AuthServices.getCurrentUser()).response}`
+                // },
                 data: {}
               };
               
@@ -72,28 +75,6 @@ const Bootcamps = (props) => {
                 setBootcamps(BootcampList.BootcampList)
               });
 
-
-
-            // try {
-            //     const response = await fetch(baseurl + "/bootcamp/allbootcamps")
-            //    response.then(response=>response.json())
-            //    .then(json=>{
-            //         setBootcamps(json.BootcampList)
-            //         console.log("All Data ", bootcamps)
-            //    })
-            //    .error(error=>{console.log(error)})
-               
-               
-                
-            //     // json.then(data => {
-            //     //     setBootcamps(data.BootcampList)
-            //     //     console.log("All Data ", bootcamps)
-            //     // })
-            // } 
-            // catch (error) {
-            //     console.log("Reading Bootcamp 1", BootcampList)
-            //     setBootcamps(BootcampList.BootcampList)
-            // }
         }
         GetBootcamps() // IIF
     }, [])
@@ -109,7 +90,7 @@ const Bootcamps = (props) => {
                     {
                         bootcamps.map((item) =>
                             <Col md={4} xs={12} sm={6}>
-                                <Bootcamp className="col col-md-3" identifier={"/bootcamps/"+item.id} title={item.text} width={item.width} imageSrc={item.image} body={item.description} ></Bootcamp>
+                                <Bootcamp startDate={item.startSate} className="col col-md-3" name={item.name} description={item.description} identifier={"/bootcamps/"+item.id} title={item.text} width={item.width} imageSrc={item.bannerLargeImage} body={item.description} ></Bootcamp>
                             </Col>
                         )
                     }
