@@ -13,6 +13,47 @@ import AuthServices from "../Services/AuthServices";
 
 import './BootcampDetails.css'
 
+
+const InnerItem = (props) => {
+
+  console.log("PPPPP", props);
+
+  return(
+  <Accordion defaultActiveKey="0">
+
+    {
+      props.sessionItems?.map((itemInner, index) => {
+        return (
+
+
+
+          <Accordion.Item eventKey={index}>
+            <Accordion.Header>{itemInner.name}</Accordion.Header>
+            <Accordion.Body>
+              {
+                itemInner.details
+              }
+              {
+                itemInner.sessionDate
+              }
+              {
+                itemInner.details
+              }
+
+            </Accordion.Body>
+          </Accordion.Item>
+
+
+        )
+      })
+    }
+
+
+  </Accordion>
+  )
+}
+
+
 const BootcampDetails = (props) => {
   // hook for taking the param s to the component
 
@@ -141,53 +182,27 @@ const BootcampDetails = (props) => {
             <div className="row">
 
 
-              <div id="accordion-outer">
+              <Accordion defaultActiveKey="0">
                 {
                   bootcamp?.sessions?.map((item, indexOuter) => {
                     return (
                       <>
-                        <Accordion defaultActiveKey={indexOuter}>
-                          <Accordion.Item eventKey={indexOuter}>
-                            <Accordion.Header>{item.name}</Accordion.Header>
-                            <Accordion.Body>
 
-                              {
-                                item.sessionItems?.map((itemInner, index) => {
-                                  return (
+                        <Accordion.Item eventKey={indexOuter}>
+                          <Accordion.Header>{item.name}</Accordion.Header>
+                          <Accordion.Body>
 
+                           
+                            <InnerItem sessionItems={item.sessionItems}></InnerItem>
 
-                                    <Accordion defaultActiveKey={index}>
-                                      <Accordion.Item eventKey={index}>
-                                        <Accordion.Header>{itemInner.name}</Accordion.Header>
-                                        <Accordion.Body>
-                                          {
-                                            itemInner.details
-                                          }
-                                          {
-                                            itemInner.sessionDate
-                                          }
-                                          {
-                                            itemInner.details
-                                          }
+                          </Accordion.Body>
+                        </Accordion.Item>
 
-                                        </Accordion.Body>
-                                      </Accordion.Item>
-                                    </Accordion>
-
-
-
-
-                                  )
-                                })
-                              }
-                            </Accordion.Body>
-                          </Accordion.Item>
-                        </Accordion>
                       </>
                     )
                   })
                 }
-              </div>
+              </Accordion>
             </div>
           </div>
         </section>
