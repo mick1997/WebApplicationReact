@@ -81,16 +81,25 @@ class SideNavBar extends React.Component {
               </NavIcon>
               <NavText>My Progress</NavText>
             </NavItem>
-
-            <NavItem eventKey="bootcamps">
-              <NavIcon>
-                <i
-                  className="fa fa-fw fa-line-chart"
-                  style={{ fontSize: "1.75em" }}
-                />
-              </NavIcon>
-              <NavText>Bootcamps</NavText>
-            </NavItem>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+            <Link to="/bootcamps">
+              <NavItem eventKey="bootcamps">
+                <NavIcon>
+                  <i
+                    className="fa fa-fw fa-line-chart"
+                    style={{ fontSize: "1.75em" }}
+                  />
+                </NavIcon>
+                <NavText>Bootcamps</NavText>
+              </NavItem>
+            </Link>
+            </div>
           </SideNav.Nav>
         </SideNav>
       </>

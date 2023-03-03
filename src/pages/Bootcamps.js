@@ -16,7 +16,7 @@ import axios from "axios";
 // Routing  
 const Bootcamp = (props) => {
     const [bootcamp, setBootcamp] = useState(props)
-
+    console.log("bootcamp:"+bootcamp)
     return (
         <Card style={{ width: bootcamp.width }} className="m-5">
             <Card.Img variant="top" src={bootcamp.imageSrc} />
@@ -65,6 +65,8 @@ const Bootcamps = (props) => {
                 console.log(response.data);
                 setBootcamps(response.data)
                 console.log("All Data ", bootcamps)
+
+                
               }).catch(function (error) {
                 console.error(error);
                 setBootcamps(BootcampList.BootcampList)

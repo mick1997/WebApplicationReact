@@ -19,7 +19,8 @@ const router = createBrowserRouter([
     path: "/bootcamps/:bootcampId",
     element: (
         <>
-          <BootcampDetails></BootcampDetails>
+         console.log("bootcampId",bootcampId);
+          <BootcampDetails ></BootcampDetails>
           <Link to="/bootcamps/:bootcampId"></Link>
         </>
     )
